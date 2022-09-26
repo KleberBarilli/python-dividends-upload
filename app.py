@@ -1,11 +1,11 @@
-from flask import Flask,render_template,request
+from flask import Flask,render_template,request,jsonify
 import os
 import pandas as pd
 
 app=Flask(__name__)
 app.secret_key="123"
 
-app.config["UPLOAD_FOLDER"]="static/excel"
+app.config["UPLOAD_FOLDER"]="tmp"
 
 def unlink_file(file_path):
     return os.unlink(file_path)
@@ -19,8 +19,9 @@ def upload():
             upload_file.save(file_path)
             data=pd.read_excel(upload_file)
             unlink_file(file_path)
-            return render_template("ExcelFile.html",data=data.to_html(index=False).replace('<th>','<th style="text-align:center">'))
-    return render_template("UploadExcel.html")
+            print(data)
+            return render_template("imported-excel-data.html",data=data.to_html(index=False).replace('<th>','<th style="text-align:center">'))
+    return render_template("upload-excel.html")
 
 
 if __name__=='__main__':
