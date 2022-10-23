@@ -1,14 +1,17 @@
 import os
 import pandas as pd
 from dotenv import load_dotenv, find_dotenv
-from flask import Flask, render_template, request, jsonify
-from src.controller.prepare_excel_data import prepare
+from flask import Flask, render_template, request
+from src.controller.prepare_excel_data import PrepareExcelData
+from src.database.postgres import Database
 
 load_dotenv(find_dotenv())
-
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY")
+app.secret_key = os.environ["SECRET_KEY"]
 app.config["UPLOAD_FOLDER"] = "tmp"
+
+database = Database()
+db = database.get_db_connection()
 
 
 def unlink_file(file_path):
@@ -24,7 +27,9 @@ def upload():
                 app.config["UPLOAD_FOLDER"], upload_file.filename)
             upload_file.save(file_path)
             data = pd.read_excel(upload_file)
-        print(prepare(data))
+        print(os.environ['SECRET_KEY'])
+        p = PrepareExcelData(data, db)
+        print(p.prepare())
         unlink_file(file_path)
         return render_template("imported-excel-data.html", data=data.to_html(index=False).replace('<th>', '<th style="text-align:center">'))
     return render_template("upload-excel.html")
