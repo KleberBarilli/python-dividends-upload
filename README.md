@@ -1,8 +1,8 @@
-# Upload excel files
 
 ## 📑 Sobre o projeto
 
 Simples projeto em python utilizando flask e pandas, que lê um arquivo e retorna os dados formatados para realizar alguma outra tarefa.
+Ele faz o upload da planilha de exemplo de dividendos, (padrão da b3) e salva num banco de dados postgres
 
 ## ✍🏻 Funcionalidades
 
