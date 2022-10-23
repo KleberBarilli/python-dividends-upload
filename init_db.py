@@ -14,7 +14,7 @@ conn = psycopg2.connect(
 cur = conn.cursor()
 
 # Execute a command: this creates a new table
-cur.execute('CREATE TABLE IF NOT EEXISTS books (id serial PRIMARY KEY,'
+cur.execute('CREATE TABLE IF NOT EXISTS books (id serial PRIMARY KEY,'
             'title varchar (150) NOT NULL,'
             'author varchar (50) NOT NULL,'
             'pages_num integer NOT NULL,'

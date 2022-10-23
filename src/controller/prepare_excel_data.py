@@ -8,9 +8,20 @@ class PrepareExcelData:
         return self.data
 
     def prepare(self):
-        self.cursor.execute('SELECT * FROM books')
-        books = self.cursor.fetchall()
-        print('books', books)
+        self.create_table_dividends()
+        self.conn.commit()
         self.cursor.close()
         self.conn.close()
-        return books
+
+    def create_table_dividends(self):
+        return self.cursor.execute('CREATE TABLE IF NOT EXISTS dividendos (id serial PRIMARY KEY,'
+                                   'entrada varchar (50) NOT NULL,'
+                                   'data date NOT NULL,'
+                                   'movimentacao varchar (50) NOT NULL,'
+                                   'produto text,'
+                                   'instituicao varchar (150) NOT NULL,'
+                                   'quantidade int NOT NULL,'
+                                   'preco_unitario double precision NOT NULL,'
+                                   'valor_opercao double precision NOT NULL,'
+                                   'criado_em date DEFAULT CURRENT_TIMESTAMP);'
+                                   )
