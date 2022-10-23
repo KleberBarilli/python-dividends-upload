@@ -34,7 +34,7 @@ Utiliza as seguintes bibliotecas de suporte:
 ```
 # Instale as dependências 
 
-$ pip install -r requiremets.txt
+$ pip install -r requirements.txt
 ```
 
 ```
