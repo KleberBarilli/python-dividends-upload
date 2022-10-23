@@ -1,9 +1,11 @@
+from datetime import date
 import os
 import pandas as pd
 from dotenv import load_dotenv, find_dotenv
 from flask import Flask, render_template, request
 from src.controller.prepare_excel_data import PrepareExcelData
 from src.database.postgres import Database
+from datetime import datetime
 
 load_dotenv(find_dotenv())
 app = Flask(__name__)
@@ -28,6 +30,7 @@ def upload():
                 app.config["UPLOAD_FOLDER"], upload_file.filename)
             upload_file.save(file_path)
             data = pd.read_excel(upload_file)
+            data['Data'] = pd.to_datetime(data['Data']).dt.date
         p = PrepareExcelData(data, db)
         print(p.prepare())
         unlink_file(file_path)
