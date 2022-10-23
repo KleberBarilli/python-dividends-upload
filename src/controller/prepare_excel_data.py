@@ -1,17 +1,16 @@
 class PrepareExcelData:
     def __init__(self, data, db):
         self.data = data
-        self.db = db
+        self.conn = db
+        self.cursor = db.cursor()
 
     def __str__(self):
         return self.data
 
     def prepare(self):
-        conn = self.db
-        cur = conn.cursor()
-        cur.execute('SELECT * FROM books')
-        books = cur.fetchall()
+        self.cursor.execute('SELECT * FROM books')
+        books = self.cursor.fetchall()
         print('books', books)
-        cur.close()
-        conn.close()
-        return data
+        self.cursor.close()
+        self.conn.close()
+        return books

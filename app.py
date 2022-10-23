@@ -10,7 +10,8 @@ app = Flask(__name__)
 app.secret_key = os.environ["SECRET_KEY"]
 app.config["UPLOAD_FOLDER"] = "tmp"
 
-database = Database()
+database = Database(os.environ['DB_HOST'], os.environ['DB'],
+                    os.environ['DB_USER'], os.environ['DB_PASSWORD'])
 db = database.get_db_connection()
 
 
@@ -27,7 +28,6 @@ def upload():
                 app.config["UPLOAD_FOLDER"], upload_file.filename)
             upload_file.save(file_path)
             data = pd.read_excel(upload_file)
-        print(os.environ['SECRET_KEY'])
         p = PrepareExcelData(data, db)
         print(p.prepare())
         unlink_file(file_path)

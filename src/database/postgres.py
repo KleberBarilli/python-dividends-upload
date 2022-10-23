@@ -1,15 +1,17 @@
-
-import os
-from dotenv import load_dotenv, find_dotenv
 import psycopg2
-load_dotenv(find_dotenv())
 
 
 class Database():
-    @staticmethod
-    def get_db_connection():
-        conn = psycopg2.connect(host=os.environ['DB_HOST'],
-                                database='flask_db',
-                                user=os.environ['DB_USER'],
-                                password=os.environ['DB_PASSWORD'])
+
+    def __init__(self, host, database, user, password):
+        self.host = host
+        self.database = database
+        self.user = user
+        self.password = password
+
+    def get_db_connection(self):
+        conn = psycopg2.connect(host=self.host,
+                                database=self.database,
+                                user=self.user,
+                                password=self.password)
         return conn
